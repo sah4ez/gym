@@ -199,7 +199,10 @@ class Agents:
     #
     #     return self.compare(skier=self.pos_skier[0], flag=self.pos_flag[0])
 
+    def act(self, observation):
+        visor_map = np.ndarray(shape=tuple((250, 160)))
 
+        return 0
 
     def compare(self, skier, flag):
         if flag == 0:
