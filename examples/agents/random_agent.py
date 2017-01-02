@@ -8,11 +8,13 @@ from gym import wrappers
 
 class RandomAgent(object):
     """The world's simplest agent!"""
+
     def __init__(self, action_space):
         self.action_space = action_space
 
     def act(self, observation, reward, done):
         return self.action_space.sample()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
@@ -55,14 +57,18 @@ if __name__ == '__main__':
             ob, reward, done, _ = env.step(action)
             if done:
                 break
-            # Note there's no env.render() here. But the environment still can open window and
-            # render if asked by env.monitor: it calls env.render('rgb_array') to record video.
-            # Video is not recorded every episode, see capped_cubic_video_schedule for details.
+                # Note there's no env.render() here. But the environment still can open window and
+                # render if asked by env.monitor: it calls env.render('rgb_array') to record video.
+                # Video is not recorded every episode, see capped_cubic_video_schedule for details.
 
     # Close the env and write monitor result info to disk
     env.close()
 
     # Upload to the scoreboard. We could also do this from another
     # process if we wanted.
-    logger.info("Successfully ran RandomAgent. Now trying to upload results to the scoreboard. If it breaks, you can always just try re-uploading the same results.")
+    logger.info(
+        "Successfully ran RandomAgent. Now trying to upload results to the scoreboard. If it breaks, you can always just try re-uploading the same results.")
+
+    gym.scoreboard.api_key = "sk_O3h7aBdFQQGlW5WB7YYeg"
     gym.upload(outdir)
+    # gym.upload(api_key="")

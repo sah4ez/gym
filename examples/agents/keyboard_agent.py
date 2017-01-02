@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
-import sys, gym
+import gym
+import sys
 
 #
 # Test yourself as a learning agent! Pass environment name as a command-line argument.
