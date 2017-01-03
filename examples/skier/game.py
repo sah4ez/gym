@@ -21,7 +21,8 @@ if __name__ == '__main__':
             # print(observation)
             action = ag.act(observation)
             # action = env.action_space.sample()
-            observation, reward, done, info = env.step(action)
+            if isinstance(action, int):
+                observation, reward, done, info = env.step(action)
 
             print("# ", str(count),
                   "P ", str(coordinates(ag.pos_skier[0], ag.pos_skier[1])),

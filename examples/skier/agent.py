@@ -62,7 +62,7 @@ class agents:
                 if y < 90:
                     self.get_skier(pixel, x, y)
 
-                if 120 < y < 180:
+                if y < 180:
                     self.get_flag(pixel, x, y)
                 x += 1
 
@@ -78,26 +78,35 @@ class agents:
             return 0
 
         res = flag - skier
-        alfa = 0.2
+        alfa = 0.1
+        left = 250
+        right = 290
+        center = 270
 
-        if res > 0:
-            if abs(res) > alfa * skier:  # and self.angle > 230:
-                if self.angle > 240:
+        if abs(res) > alfa * skier:
+            if left < self.angle < right:
+                if res > 0:
                     self.angle -= 10
                     return 1
                 else:
                     self.angle += 10
                     return 2
-        elif res < 0:
-            if abs(res) > alfa * skier:  # and self.angle < 300:
-                if self.angle < 310:
+            else:
+                if left <= self.angle < center:
                     self.angle += 10
                     return 2
-                else:
+                elif center < self.angle <= right:
                     self.angle -= 10
                     return 1
         else:
-            return 0
+            if left <= self.angle < center:
+                self.angle += 10
+                return 2
+            elif center < self.angle <= right:
+                self.angle -= 10
+                return 1
+
+        return 0
 
     def get_skier(self, pixel, x, y):
 
