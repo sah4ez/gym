@@ -18,7 +18,6 @@ if __name__ == '__main__':
 
         for t in range(1500):
             env.render()
-            # print(observation)
             action = ag.act(observation)
             # action = env.action_space.sample()
             if isinstance(action, int):
@@ -27,13 +26,14 @@ if __name__ == '__main__':
             print("# ", str(count),
                   "P ", str(coordinates(ag.pos_skier[0], ag.pos_skier[1])),
                   " :: F ", str(coordinates(ag.pos_flags[0], ag.pos_flags[1])),
-                  " :: T ", str(coordinates(ag.pos_trees[0], ag.pos_trees[1])),
-                  " :: D ", str(coordinates(ag.pos_dirties[0], ag.pos_dirties[1])),
+                  # " :: T ", str(coordinates(ag.pos_trees[0], ag.pos_trees[1])),
+                  # " :: D ", str(coordinates(ag.pos_dirties[0], ag.pos_dirties[1])),
                   " :: A ", str(ag.angle),
                   " :: REWARD ", str(reward),
                   " :: ACTION ", str(action),
-                  " :: DELTA ", str(ag.last_delta),
-                  " :: LENGTH ", str(ag.last_length)
+                  " :: DELTA {:.2f}".format(ag.last_delta),
+                  " :: LENGTH {:.2f}".format(ag.last_length),
+                  " :: VELOCITY {:.2f}".format(ag.current_velocity)
                   )
             count += 1
 
@@ -42,3 +42,7 @@ if __name__ == '__main__':
                 print(reward)
                 print('Episode finished after {} timesteps'.format(t + 1))
                 break
+
+    env.close()
+
+    # gym.upload(out)
