@@ -69,6 +69,5 @@ if __name__ == '__main__':
     logger.info(
         "Successfully ran RandomAgent. Now trying to upload results to the scoreboard. If it breaks, you can always just try re-uploading the same results.")
 
-    gym.scoreboard.api_key = "sk_O3h7aBdFQQGlW5WB7YYeg"
     gym.upload(outdir)
     # gym.upload(api_key="")

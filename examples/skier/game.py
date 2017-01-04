@@ -1,22 +1,29 @@
 import gym
 import examples.skier.agent as agent
 from examples.skier.coordinate import coordinates
+from gym import wrappers
 
 if __name__ == '__main__':
 
     env = gym.make('Skiing-v0')
     out = '/tmp/skiing'
-    # env = wrappers.Monitor(env, out)
+    env = wrappers.Monitor(env, directory=out, force=True)
+    env.seed(0)
 
     # ag = agents()
     action = 1
 
+    rewards = []
+    reward = 0
+    done = False
+
     count = 0
-    for i in range(20):
+    for i in range(2):
         observation = env.reset()
         ag = agent.agents()
 
-        for t in range(1500):
+        # for t in range(500):
+        while True:
             env.render()
             action = ag.act(observation)
             # action = env.action_space.sample()
@@ -40,9 +47,12 @@ if __name__ == '__main__':
             print("\n========================================\n")
             if done:
                 print(reward)
-                print('Episode finished after {} timesteps'.format(t + 1))
+                rewards.append(reward)
+                # print('Episode finished after {} timesteps'.format(t + 1))
                 break
 
     env.close()
 
-    # gym.upload(out)
+    print(rewards)
+
+    gym.upload(out)

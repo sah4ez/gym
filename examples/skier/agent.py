@@ -68,9 +68,9 @@ class agents:
 
                 if y < 90:
                     self.get_skier(pixel, x, y)
-
-                if y < 221:
+                if y > 72:
                     self.get_flag(pixel, x, y)
+
                 x += 1
 
             y += 1
@@ -87,16 +87,19 @@ class agents:
         delta = flag[0] - skier[0]
         length = pow((pow(flag[0] - skier[0], 2) + pow(flag[1] - skier[1], 2)), 1 / 2)
 
-        alfa = 0.13
+        alfa = 0.09
         if (1 - alfa) * skier[0] < flag[0] < (1 + alfa) * skier[0]:
+            if (self.last_length - length) < self.velocity:
+                return self.calc_velocity(delta, length)
             self.save(delta, length)
             print("between flag")
             return self.alignment()
 
-        if (self.last_length - length) < self.velocity:
-            self.save(delta, length)
-            print("velocity")
+        if (self.last_length - length) == self.velocity:
             return self.alignment()
+
+        if (self.last_length - length) < self.velocity:
+            return self.calc_velocity(delta, length)
 
         if abs(self.last_delta) > abs(delta):
             self.save(delta, length)
@@ -112,20 +115,27 @@ class agents:
             print("right turn")
             return self.right_turn()
 
+    def calc_velocity(self, delta, length):
+            if delta == self.last_delta:
+                return 0
+            self.save(delta, length)
+            print("velocity")
+            return self.alignment()
+
     def save(self, delta, length):
         self.current_velocity = self.last_length - length
         self.last_delta = delta
         self.last_length = length
 
     def left_turn(self):
-        if self.angle < 259:
+        if self.angle < 258:
             return self.alignment()
 
         self.angle -= self.angle_turn
         return 1
 
     def right_turn(self):
-        if self.angle > 281:
+        if self.angle > 283:
             return self.alignment()
 
         self.angle += self.angle_turn
@@ -133,7 +143,6 @@ class agents:
 
     def alignment(self):
         center = 270
-        #TODO проверка на равенство преращения
         if self.angle == center:
             return 0
 
