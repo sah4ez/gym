@@ -30,7 +30,10 @@ if __name__ == '__main__':
                   " :: T ", str(coordinates(ag.pos_trees[0], ag.pos_trees[1])),
                   " :: D ", str(coordinates(ag.pos_dirties[0], ag.pos_dirties[1])),
                   " :: A ", str(ag.angle),
-                  " :: ACTION ", str(action)
+                  " :: REWARD ", str(reward),
+                  " :: ACTION ", str(action),
+                  " :: DELTA ", str(ag.last_delta),
+                  " :: LENGTH ", str(ag.last_length)
                   )
             count += 1
 

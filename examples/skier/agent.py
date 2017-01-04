@@ -27,6 +27,9 @@ class agents:
 
     angle = 270
 
+    last_length = 0
+    last_delta = 0
+
     def __init__(self):
         return
 
@@ -71,42 +74,55 @@ class agents:
         self.calc_pos_skier()
         self.calc_pos_flag()
 
-        return self.compare(self.pos_skier[0], self.pos_flags[0])
+        return self.compare(self.pos_skier, self.pos_flags)
 
     def compare(self, skier, flag):
-        if flag == 0:
-            return 0
-
-        res = flag - skier
-        alfa = 0.1
+        alfa = 0.15
+        gamma = 5
         left = 250
         right = 290
         center = 270
 
-        if abs(res) > alfa * skier:
-            if left < self.angle < right:
-                if res > 0:
-                    self.angle -= 10
-                    return 1
-                else:
-                    self.angle += 10
-                    return 2
-            else:
-                if left <= self.angle < center:
-                    self.angle += 10
-                    return 2
-                elif center < self.angle <= right:
-                    self.angle -= 10
-                    return 1
-        else:
-            if left <= self.angle < center:
-                self.angle += 10
+        if flag[0] == 0:
+            return 0
+
+        delta = flag[0] - skier[0]
+        length = pow((pow(flag[0] - skier[0], 2) + pow(flag[1] - skier[1], 2)), 1 / 2)
+
+        if self.last_delta > delta:
+            self.last_delta = delta
+            self.last_length = length
+            return 0
+
+        if (1 - alfa) * skier[0] < flag[0] < (1 + alfa) * skier[0]:
+            self.last_delta = delta
+            self.last_length = length
+
+            if self.angle == center:
+                return 0
+
+            if self.angle < center:
+                self.angle += gamma
                 return 2
-            elif center < self.angle <= right:
-                self.angle -= 10
+            if self.angle > center:
+                self.angle -= gamma
                 return 1
 
-        return 0
+            return 0
+
+        if left < self.angle < right:
+            if delta > 0:
+                self.last_delta = delta
+                self.last_length = length
+                self.angle -= gamma
+                return 1
+            else:
+                self.last_delta = delta
+                self.last_length = length
+                self.angle += gamma
+                return 2
+        else:
+            return 0
 
     def get_skier(self, pixel, x, y):
 
